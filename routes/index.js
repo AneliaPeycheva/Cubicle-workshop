@@ -5,15 +5,15 @@ const Cube=require('../models/cube')
 const router = Router()
 
 router.get('/', (req, res) => {
-
+    
     getAllCubes((cubes) => {
-
         res.render('index', {
             title: 'Cube workshop',
             cubes
         })
     })
 })
+
 
 router.get('/about', (req, res) => {
     res.render('about', {
@@ -42,7 +42,6 @@ router.post('/create', (req, res) => {
 })
 
 router.get('/details/:id', (req, res) => {
-
     getCube(req.params.id, (cube) => {
       res.render('details', {
         title: 'Details | Cube Workshop',
@@ -51,6 +50,7 @@ router.get('/details/:id', (req, res) => {
       
     })
   })
+
 
 router.get('*', (req, res) => {
     res.render('404', {
