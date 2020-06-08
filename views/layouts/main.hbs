@@ -7,14 +7,13 @@
   <link href="/static/css/site.css" type="text/css" rel="stylesheet">
   <link rel='shortcut icon' type='image/x-icon' href='/images/favicon.png' />
 </head>
- 
-<body>
- <div class="container">
-{{> header}}
- {{{body}}}
 
- </div>
- {{> footer}}
+<body>
+  <div class="container">
+    {{> header}}
+    <main> {{{body}}} </main>
+  </div>
+  {{> footer}}
 </body>
 
 </html>
