@@ -21,5 +21,8 @@ const AccessorySchema = new mongoose.Schema({
     }]
 })
 
+AccessorySchema.path('imageUrl').validate(function(url){
+    return url.includes('http') || url.include('https')
+},'Image URL is not valid')
 
 module.exports =mongoose.model('Accessory',AccessorySchema)
