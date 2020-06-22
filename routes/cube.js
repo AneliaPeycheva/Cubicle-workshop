@@ -1,6 +1,11 @@
+const env=process.env.NODE_ENV || 'development'
+const jwt = require('jsonwebtoken')
 const express=require("express")
+const Cube=require('../models/cube')
+const config = require('../config/config')[env];
 
 const router=express.Router();
+
 
 router.get('/create', (req, res) => {
     res.render('create', {
@@ -16,7 +21,13 @@ router.post('/create', (req, res) => {
         difficultyLevel
     } = req.body
 
-    const cube = new Cube({ name, description, imageUrl, difficultyLevel })
+    const token=req.cookies['aid']
+    console.log(token);
+    
+    const decodedObject=jwt.verify(token,config.privateKey)
+   
+
+    const cube = new Cube({ name, description, imageUrl, difficultyLevel,creatorId:decodedObject.userId })
 
     cube.save((err) => {
         if (err) {
