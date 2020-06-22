@@ -1,12 +1,12 @@
+const env=process.env.NODE_ENV || 'development'
 const jwt = require('jsonwebtoken')
+const config = require('../config/config')[env];
+const bcrypt = require('bcrypt');
 const User = require('../models/user')
 const saltRounds = 10;
-const bcrypt = require('bcrypt');
-
-const privateKey = 'Cube-SoftUni-WorkShop'
 
 const generateToken = (data) => {
-    const token = jwt.sign(data, privateKey)
+    const token = jwt.sign(data, config.privateKey)
     return token
 }
 
