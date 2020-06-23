@@ -2,16 +2,21 @@ const env=process.env.NODE_ENV || 'development'
 const jwt = require('jsonwebtoken')
 const express=require("express")
 const Cube=require('../models/cube')
+const {checkAuthentication,getUserStatus}=require('../controllers/users')
+const {getCubeWithAccessories}=require('../controllers/cubes')
 const config = require('../config/config')[env];
 
 const router=express.Router();
 
 
-router.get('/create', (req, res) => {
+router.get('/create',checkAuthentication,getUserStatus, (req, res) => {
+    console.log(req.cookies['aid'])
     res.render('create', {
-        // title: 'Create | Cube workshop'
+        isLoggedIn: req.isLoggedIn
     })
 })
+
+
 
 router.post('/create', (req, res) => {
     const {
@@ -21,12 +26,9 @@ router.post('/create', (req, res) => {
         difficultyLevel
     } = req.body
 
-    const token=req.cookies['aid']
-    console.log(token);
-    
+    const token=req.cookies['aid']      
     const decodedObject=jwt.verify(token,config.privateKey)
    
-
     const cube = new Cube({ name, description, imageUrl, difficultyLevel,creatorId:decodedObject.userId })
 
     cube.save((err) => {
@@ -39,19 +41,24 @@ router.post('/create', (req, res) => {
     })
 })
 
-router.get('/details/:id', async (req, res) => {
+router.get('/details/:id', getUserStatus,async (req, res) => {
     const cube = await getCubeWithAccessories(req.params.id)
     res.render('details', {
         title: 'Details | Cube Workshop',
-        ...cube
+        ...cube,
+        isLoggedIn: req.isLoggedIn
     })
 })
 
-router.get("/edit",(req,res)=>{
-    res.render('editCube')
+router.get("/edit",checkAuthentication, getUserStatus,(req,res)=>{
+    res.render('editCube',{
+        isLoggedIn: req.isLoggedIn
+    })
 })
-router.get("/delete",(req,res)=>{
-    res.render('deleteCube')
+router.get("/delete",checkAuthentication,getUserStatus,(req,res)=>{
+    res.render('deleteCube',{
+        isLoggedIn: req.isLoggedIn
+    })
 })
 
 module.exports=router;
