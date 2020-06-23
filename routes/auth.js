@@ -1,13 +1,17 @@
 const express = require("express")
-const {saveUser,verifyUser}=require('../controllers/users')
+const {saveUser,verifyUser,guestAccess,getUserStatus}=require('../controllers/users')
 const router = express.Router();
 
-router.get("/login", (req, res) => {
-    res.render('login')
+router.get("/login",guestAccess,getUserStatus,(req, res) => {
+    res.render('login',{
+      isLoggedIn: req.isLoggedIn
+    })
 })
 
-router.get("/register", (req, res) => {
-    res.render('register')
+router.get("/register",guestAccess,getUserStatus, (req, res) => {
+    res.render('register',{
+      isLoggedIn: req.isLoggedIn
+    })
 })
 
 router.post("/register", async (req, res) => {
