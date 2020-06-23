@@ -1,5 +1,4 @@
 # Cubicle-workshop
-JavaScript
 
 npm install
 
