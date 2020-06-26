@@ -1,11 +1,12 @@
 <h1>Register Form</h1>
+{{>error-message}}
 <div class="form">
     <form action='/register' method="POST">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username">
+        <input type="text" id="username" name="username" placeholder="Username consist only with English letters and digits, have to be at least 5 characters long">
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" placeholder="Username consist only with English letters and digits, have to be at least 8 characters long">
 
         <label for="repeatPassword">Re-Password</label>
         <input type="password" id="repeatPassword" name="repeatPassword">

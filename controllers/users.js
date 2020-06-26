@@ -42,18 +42,38 @@ const verifyUser = async (req, res) => {
         password
     } = req.body
 
-    const user = await User.findOne({ username })
+    try {
+        const user = await User.findOne({ username })
+        if (user) {
+            const status = await bcrypt.compare(password, user.password);
 
-    const status = await bcrypt.compare(password, user.password);
+            if (status) {
+                const token = generateToken({
+                    userId: user._id,
+                    username: user.username
+                })
+                res.cookie('aid', token)
+            }
+            return {
+                error: !status,
+                message: status || 'Wrong password'
+            }
+        } else {
+            return {
+                error: true,
+                message: 'There is no such user'
+            }
+        }
 
-    if (status) {
-        const token = generateToken({
-            userId: user._id,
-            username: user.username
-        })
-        res.cookie('aid', token)
+    } catch (error) {
+        return {
+            error: true,
+            message: 'There is no such user',
+            status
+        }
     }
-    return status
+
+
 }
 
 const checkAuthentication = (req, res, next) => {
@@ -67,7 +87,7 @@ const checkAuthentication = (req, res, next) => {
         next()
     } catch (error) {
         res.redirect('/')
-    }  
+    }
 }
 const guestAccess = (req, res, next) => {
     const token = req.cookies['aid']
@@ -77,18 +97,18 @@ const guestAccess = (req, res, next) => {
     }
     next()
 }
-const getUserStatus=(req,res,next)=>{
+const getUserStatus = (req, res, next) => {
     const token = req.cookies['aid']
 
     if (!token) {
-      req.isLoggedIn=false   
-    } 
+        req.isLoggedIn = false
+    }
     try {
         jwt.verify(token, config.privateKey)
-        req.isLoggedIn=true       
+        req.isLoggedIn = true
     } catch (error) {
-        req.isLoggedIn=false
-    }  
+        req.isLoggedIn = false
+    }
     next()
 }
 

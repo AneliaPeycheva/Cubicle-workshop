@@ -1,12 +1,13 @@
 <h1>Create</h1>
+{{>error-message}}
 <div class="form">
   <form action='/create' method="POST">
     <label for="name">Name</label>
-    <input type="text" id="name" name="name">
+    <input type="text" id="name" name="name" placeholder="The name have to be at least 5 characters long, who could be English letters, digits and whitespaces">
     <label for="name">Description</label>
-    <textarea id="name" name="description"></textarea>
+    <textarea id="name" name="description" placeholder="At least 20 characters, who could be English letters, digits and whitespaces"></textarea>
     <label for="image">ImageUrl</label>
-    <input type="text" id="image" name="imageUrl">
+    <input type="text" id="image" name="imageUrl" placeholder="Image starts with http://... or https://...)">
     <label for="difficulty">Difficulty</label>
     <select id="difficulty" name="difficultyLevel">
       <option value="1">1 - Very Easy</option>
