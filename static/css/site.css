@@ -162,7 +162,16 @@ form label {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
-
+.notifications{
+    margin:2% auto;
+    text-align: center;
+    width: 50%;
+    padding: 0.5%;
+    background: rgb(182, 122, 132);
+    color:white;
+    border-radius:5px;
+    text-decoration: underline;
+}
 input[type=text],
 input[type=number],
 input[type=password],

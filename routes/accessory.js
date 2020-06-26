@@ -22,14 +22,27 @@ router.post('/create/accessory', checkAuthentication,async (req, res) => {
 
     const accessory = new Accessory({ name, description, imageUrl })
 
-    await accessory.save((err) => {
-        if (err) {
-            console.error(err)
-            res.redirect('/create/accessory')
-        } else {
-            res.redirect('/')
-        }
-    })
+    // await accessory.save((err) => {
+    //     if (err) {
+    //         console.error(err)
+    //         res.redirect('/create/accessory')
+    //     } else {
+    //         res.redirect('/')
+    //     }
+    // })
+    try {
+        await accessory.save()
+        res.render('createAccessory',{
+            title:'Create Accessory',
+            isLoggedIn:req.isLoggedIn
+          })
+    } catch (error) {
+        res.render('createAccessory',{
+            title:'Create Accessory',
+            isLoggedIn:req.isLoggedIn,
+            error:"Accessory details are not valid"
+          })
+    }
 })
 
 router.get('/attach/accessory/:id', checkAuthentication,getUserStatus,async (req, res) => {
