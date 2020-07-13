@@ -34,7 +34,7 @@ router.post("/register", async (req, res) => {
     password,
     repeatPassword
 } = req.body
-
+console.log(req.body)
 if (password!==repeatPassword){
   return res.render('register',{
     error:"Re-password should be the same as the given password"
